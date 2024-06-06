@@ -1,7 +1,7 @@
 require 'rspec/autorun'
 
 class BowlingGame
-  attr_accessor :score, :max
+  attr_accessor :score
 
   MAX = 10
 
@@ -44,41 +44,41 @@ class BowlingGame
   end
 
   def calculate_spare(frame,index)
-    @score += 10
+    @score += MAX
     if index + 1 < MAX
       next_frame = @all_frames[index + 1]
-      @score += next_frame[0] == 'X' ? 10 : next_frame[0].to_i
+      @score += next_frame[0] == 'X' ? MAX : next_frame[0].to_i
     else
       @score += frame[0].to_i + frame[1].to_i
     end
   end
 
   def calculate_strike(frame,index)
-    @score += 10
+    @score += MAX
     if index + 1 < MAX
     next_frame = @all_frames[index + 1]
       if next_frame[0] == 'X'
-        @score += 10
+        @score += MAX
           if index + 2 < MAX
             next_next_frame = @all_frames[index + 2]
-            @score += next_next_frame[0] == 'X' ? 10 : next_next_frame[0].to_i
+            @score += next_next_frame[0] == 'X' ? MAX : next_next_frame[0].to_i
            else
             @score += next_frame[1].to_i
           end
       else
-        @score += next_frame[0].to_i + (next_frame[1] == '/' ? 10 - next_frame[0].to_i : next_frame[1].to_i)
+        @score += next_frame[0].to_i + (next_frame[1] == '/' ? MAX - next_frame[0].to_i : next_frame[1].to_i)
       end
     end
   end
 
   def calculate_last_frame(frame,index)
     if strike?(frame)
-        @score += 10
-        @score += frame[1] == 'X' ? 10 : frame[1].to_i
-        @score += frame[2] == '/' ? 10 - frame[1].to_i : (frame[2] == 'X' ? 10 : frame[2].to_i)
+        @score += MAX
+        @score += frame[1] == 'X' ? MAX : frame[1].to_i
+        @score += frame[2] == '/' ? MAX - frame[1].to_i : (frame[2] == 'X' ? MAX : frame[2].to_i)
     elsif spare?(frame)
-        @score += 10
-        @score += frame[2] == 'X' ? 10 : frame[2].to_i
+        @score += MAX
+        @score += frame[2] == 'X' ? MAX : frame[2].to_i
     else
         @score += frame[0].to_i + frame[1].to_i
     end
